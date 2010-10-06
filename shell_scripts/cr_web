@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/dev/flightlink/RpmOnline
+ruby ~/dev/flightlink/RpmOnline/script/rails server -e development

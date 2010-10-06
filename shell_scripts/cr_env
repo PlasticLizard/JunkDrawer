@@ -1,0 +1,8 @@
+#!/bin/bash
+
+gnome-terminal --title=geppetto  -x geppetto
+gnome-terminal --title=cr_daemon -x cr
+gnome-terminal --title=cr_web -x cr_web
+
+sleep 15
+firefox "http://localhost:3000"

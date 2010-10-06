@@ -1,0 +1,4 @@
+#!/bin/bash
+
+chmod 0755 ~/dev/flightlink/geppetto/bin/geppetto
+~/dev/flightlink/geppetto/bin/geppetto start -e development -p 3001
