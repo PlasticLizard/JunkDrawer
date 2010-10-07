@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $FLIGHTLINK_ROOT/RpmOnline
+ruby $FLIGHTLINK_ROOT/RpmOnline/script/rails console development
