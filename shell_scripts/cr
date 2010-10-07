@@ -1,3 +1,3 @@
 #!/bin/bash
 
-~/dev/flightlink/RpmOnline/script/cr_daemon run development
+$FLIGHTLINK_ROOT/RpmOnline/script/cr_daemon run development
