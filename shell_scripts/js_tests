@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd $FLIGHTLINK_ROOT/RpmOnline
+
+gnome-terminal --title=JasmineServer -x rake -f spec/javascripts/Rakefile jasmine
+gnome-terminal --title=CoffeeScriptWatcher -x guard
+
+firefox "http://localhost:8888"
