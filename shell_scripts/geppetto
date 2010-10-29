@@ -1,4 +1,4 @@
 #!/bin/bash
 
-chmod 0755 $FLIGHTLIN_ROOT/geppetto/bin/geppetto
-$FLIGHTLIN_ROOT/geppetto/bin/geppetto start -e development -p 3001
+chmod 0755 $FLIGHTLINK_ROOT/geppetto/bin/geppetto
+$FLIGHTLINK_ROOT/geppetto/bin/geppetto start -e development -p 3001
