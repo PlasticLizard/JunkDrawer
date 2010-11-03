@@ -1,0 +1,37 @@
+#!/bin/bash
+
+db_user=hsi
+db_passwd=Fl1ghtL1nk
+backup_dir=mongo_backup
+cwd=`pwd`
+export PATH=/usr/bin:$PATH
+
+auth=$1
+
+if [ ! -d $HOME/$backup_dir ]; then 
+    echo "No previous backup is found."
+    exit
+fi
+
+echo -n "Are you sure you want to run restore (y/n)? "
+read ANSWER
+if [ $ANSWER = "y" ]; then
+    cd $HOME
+    
+    if [ -z "$auth" -a "${auth+xxx}" = "xxx" ]; then
+	mongorestore $HOME/$backup_dir
+    else
+	mongorestore --username=$db_user --password=$db_passwd $HOME/$backup_dir
+    fi
+
+    CODE=$?
+    if [ $CODE -eq 0 ]; then 
+	echo -n "Since things seem working fine. Do you want to remove the backup folder (y/n)? "
+	read ANSWER
+	if [ $ANSWER = "y" ]; then
+	    rm -fr $backup_dir
+	fi
+    fi
+fi
+
+cd $cwd

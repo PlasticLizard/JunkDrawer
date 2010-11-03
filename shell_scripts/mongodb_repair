@@ -1,0 +1,61 @@
+#!/bin/bash
+
+db_user=hsi
+db_passwd=Fl1ghtL1nk
+backup_dir=mongo_backup
+cwd=`pwd`
+export PATH=/usr/bin:$PATH
+
+conf_file="/etc/mongodb.conf"
+
+auth=$1
+
+if [ ! -f $conf_file ]; then 
+    echo "mongodb configuration file $conf_file not found"
+    exit
+fi
+
+echo -n "Do you want to backup the mongo databases first (y/n)? "
+read ANSWER
+if [ $ANSWER = "y" ]; then
+
+    cd $HOME
+    if [ ! -d $HOME/$backup_dir ]; then
+	echo "Creating backup folder $backup_dir"
+	mkdir $backup_dir
+    fi
+
+    cd $backup_dir
+    mongodump
+
+    CODE=$?
+    if [ $CODE -ne 0 ]; then 
+	cd $cwd
+	exit $CODE
+    fi
+    cd ..
+fi
+
+echo "Repairing database..."
+sudo -u mongodb mongod -f $conf_file --repair --quiet
+CODE=$?
+echo "exit code: $CODE"
+
+if [ $CODE -eq 0 ]; then 
+    echo -n "Since things seem working fine. Do you want to remove the backup folder (y/n)? "
+    read ANSWER
+    if [ $ANSWER = "y" ]; then
+	rm -fr $backup_dir
+    fi
+
+    cd $cwd
+    exit 0
+fi
+
+# echo -n "Since something went wrong, do you want to restore the database (y/n)? "
+# read ANSWER
+# if [ $ANSWER = "y" ]; then
+#     mongorestore -u $db_user -p $db_passwd $HOME/$backup_dir
+# fi
+
+cd $cwd
