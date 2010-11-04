@@ -2,28 +2,51 @@
 
 db_user=hsi
 db_passwd=Fl1ghtL1nk
-backup_dir=mongo_backup
+backup_dir=$HOME/mongo_backup
 cwd=`pwd`
 export PATH=/usr/bin:$PATH
 
-auth=$1
+usage()
+{
+    cat << EOF
+usage: $0 [options]
 
-if [ ! -d $HOME/$backup_dir ]; then 
-    echo "No previous backup is found."
+OPTIONS:
+   -h [--help]         Show this message
+   -n [--no_auth]      No DB authentication required
+EOF
+}
+
+for i in $*
+do
+    case $i in
+        -h|--help)
+            usage
+            exit 1
+            ;;
+        -n|--no_auth)
+            NOAUTH=yes
+            ;;
+        ?)
+            usage
+            exit
+            ;;
+    esac
+done
+
+if [ -z "$NOAUTH" ]; then
+    CREDENTIAL="--username=$db_user --password=$db_passwd"
+fi
+
+if [ ! -d $backup_dir ]; then 
+    echo "No previous backup is found (in $backup_dir)."
     exit
 fi
 
 echo -n "Are you sure you want to run restore (y/n)? "
 read ANSWER
 if [ $ANSWER = "y" ]; then
-    cd $HOME
-    
-    if [ -z "$auth" -a "${auth+xxx}" = "xxx" ]; then
-	mongorestore $HOME/$backup_dir
-    else
-	mongorestore --username=$db_user --password=$db_passwd $HOME/$backup_dir
-    fi
-
+    mongorestore $CREDENTIAL $backup_dir
     CODE=$?
     if [ $CODE -eq 0 ]; then 
 	echo -n "Since things seem working fine. Do you want to remove the backup folder (y/n)? "
