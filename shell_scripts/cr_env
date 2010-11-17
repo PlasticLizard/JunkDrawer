@@ -1,8 +1,8 @@
 #!/bin/bash
 
-gnome-terminal --title=geppetto  -x geppetto
-gnome-terminal --title=cr_daemon -x cr
-gnome-terminal --title=cr_web -x cr_web
+gnome-terminal --title=geppetto -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/geppetto
+gnome-terminal --title=cr_daemon -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr
+gnome-terminal --title=cr_web -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr_web
 
-sleep 15
-firefox "http://localhost:3000"
+#sleep 15
+#firefox "http://localhost:3000"
