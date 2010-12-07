@@ -1,1 +1,1 @@
-rspec --require fuubar --format Fuubar --color spec
+(rspec --require fuubar --format Fuubar --color spec && notify-send "Tests Completed", "Yay." -i /usr/share/icons/gnome/32x32/emotes/face-laugh.png ) || notify-send "Ouch", "Tests no passey senor" -i /usr/share/icons/gnome/32x32/emotes/face-crying.png

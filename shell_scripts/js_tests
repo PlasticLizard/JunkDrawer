@@ -3,6 +3,6 @@
 cd $FLIGHTLINK_ROOT/RpmOnline
 
 gnome-terminal --title=JasmineServer -x rake -f spec/javascripts/Rakefile jasmine
-gnome-terminal --title=CoffeeScriptWatcher -x guard
+gnome-terminal --title=CoffeeScriptWatcher -x bundle exec guard
 
 firefox "http://localhost:8888"
