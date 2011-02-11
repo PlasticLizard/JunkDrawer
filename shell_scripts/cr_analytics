@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $FLIGHTLINK_ROOT/RpmAnalytics
+ruby bin/RpmAnalytics
