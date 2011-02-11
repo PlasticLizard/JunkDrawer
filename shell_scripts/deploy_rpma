@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh root@durga './update_rpma'
