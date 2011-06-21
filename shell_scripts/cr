@@ -1,3 +1,4 @@
 #!/bin/bash
 
-bundle exec $FLIGHTLINK_ROOT/RpmOnline/script/rpm_daemon run development
+cd $FLIGHTLINK_ROOT/RpmOnline
+bundle exec script/rpm_daemon run development
