@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd $FLIGHTLINK_ROOT/RpmAnalytics
-ruby bin/RpmAnalytics
+cd $FLIGHTLINK_ROOT/rpm_analytics
+rvm 1.9.2 exec script/rpma -vs --api --worker
