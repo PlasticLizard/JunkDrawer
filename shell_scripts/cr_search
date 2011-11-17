@@ -1,0 +1,44 @@
+#!/bin/bash
+
+if [ ! -n "${FLIGHTLINK_ROOT}" ]; then
+  echo "Looks like FLIGHTLINK_ROOT isn't set.  Or, the compiler hates you."
+  exit
+fi
+
+PWD=`pwd`
+EDIR="elastic_search"
+cd $FLIGHTLINK_ROOT
+
+if [ ! -d $EDIR ]; then
+  echo "Installing elasticsearch..."
+  # download elasticsearch tarball
+  curl -OL https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.18.4.tar.gz
+  # untar
+  tar -xvf elasticsearch-0.18.4.tar.gz
+  # mv directory to easier to use/remember name
+  mv elasticsearch-0.18.4 $EDIR
+  # clean up
+  rm elasticsearch-0.18.4.tar.gz
+
+  cd $EDIR
+  # set up config
+  echo "Configurating..."
+  # Make searchable only on local host
+  echo "- Listen/publish on localhost only."
+  echo "network.host: 127.0.0.1" >> config/elasticsearch.yml
+
+  # install nice web ui
+  echo "Installing web UI plugin..."
+  bin/plugin -install mobz/elasticsearch-head
+
+  # import info
+  echo "Once the search code and tire gems are installed, your dev DB can be imported using the following command in a ruby console:"
+  echo "BillingRecord.import :per_page=>10"
+  echo "That last bit keeps it from totally bogging down your system while the import runs.  You're welcome."
+fi
+
+cd $PWD
+
+echo "Starting elasticsearch..."
+echo "To view the web UI, point your browser at http://localhost:9200/_plugin/head/"
+$FLIGHTLINK_ROOT/$EDIR/bin/elasticsearch -f
