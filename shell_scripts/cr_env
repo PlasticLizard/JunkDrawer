@@ -4,5 +4,6 @@ gnome-terminal --title=geppetto -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/gep
 gnome-terminal --title=cr_daemon -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr
 gnome-terminal --title=cr_web -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr_web
 gnome-terminal --title=analytics -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr_analytics
+gnome-terminal --title=search -x $FLIGHTLINK_ROOT/JunkDrawer/shell_scripts/cr_search
 #sleep 15
 #firefox "http://localhost:3000"
