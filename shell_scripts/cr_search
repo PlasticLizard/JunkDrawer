@@ -7,6 +7,7 @@ fi
 
 PWD=`pwd`
 EDIR="elastic_search"
+
 cd $FLIGHTLINK_ROOT
 
 if [ ! -d $EDIR ]; then
@@ -27,14 +28,38 @@ if [ ! -d $EDIR ]; then
   echo "- Listen/publish on localhost only."
   echo "network.host: 127.0.0.1" >> config/elasticsearch.yml
 
+  # installing river plugin for amqp
+  bin/plugin -install river-rabbitmq
+
   # install nice web ui
   echo "Installing web UI plugin..."
   bin/plugin -install mobz/elasticsearch-head
 
-  # import info
-  echo "Once the search code and tire gems are installed, your dev DB can be imported using the following command in a ruby console:"
-  echo "BillingRecord.import :per_page=>10"
-  echo "That last bit keeps it from totally bogging down your system while the import runs.  You're welcome."
+  echo =================================== SEMI IMPORTANT ===================================
+  echo And by semi, I mean really.  Execute the following after elastic search has started:
+  echo 1.  Create the index and mapping for billing_records:
+  echo curl -XPOST \'http://localhost:9200/billing_records\' -d \'{
+  echo  \"mappings\": {
+  echo   \"billing_record\": {
+  echo     \"properties\" : {
+  echo      \"billing_record_number\" : {\"type\" : \"string\", \"store\" : \"yes\", \"index\": \"not_analyzed\"},
+  echo      \"patient_number\" : {\"type\" : \"string\", \"store\" : \"yes\", \"index\": \"not_analyzed\"},
+  echo      \"patient_name\" : {\"type\" : \"string\", \"store\" : \"yes\"},
+  echo      \"dos\" : {\"type\" : \"date\", \"store\" : \"yes\"},
+  echo      \"dob\" : {\"type\" : \"date\", \"store\" : \"yes\"},
+  echo      \"ssn\" : {\"type\" : \"string\", \"store\" : \"yes\", \"index\": \"not_analyzed\"},
+  echo      \"company_id\" : {\"type\" : \"string\", \"store\" : \"yes\", \"index\": \"not_analyzed\"},
+  echo      \"company_name\" : {\"type\" : \"string\", \"store\" : \"yes\", \"index\": \"not_analyzed\"}
+  echo    }
+  echo   }
+  echo  }
+  echo }\'
+  echo " 2.  Create the rabbit MQ river to listen for billing record bulk updates:"
+  echo curl -XPUT \'localhost:9200/_river/rpm_amqp/_meta\' -d \'{
+  echo  \"type\" : \"rabbitmq\" } }\'
+  echo " 3.  In an irb session, import your existing billing records:"
+  echo "     BillingRecord.import :per_page=>10"
+  echo "=================================== SEMI IMPORTANT ==================================="
 fi
 
 cd $PWD
@@ -42,3 +67,4 @@ cd $PWD
 echo "Starting elasticsearch..."
 echo "To view the web UI, point your browser at http://localhost:9200/_plugin/head/"
 $FLIGHTLINK_ROOT/$EDIR/bin/elasticsearch -f
+
