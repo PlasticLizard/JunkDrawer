@@ -37,8 +37,8 @@ if [ ! -d $EDIR ]; then
 
   echo =================================== SEMI IMPORTANT ===================================
   echo And by semi, I mean really.  Execute the following after elastic search has started:
-  echo 1.  Create the index and mapping for billing_records:
-  echo curl -XPOST \'http://localhost:9200/billing_records\' -d \'{
+  echo 1.  Create the index and mapping for each environment\'s billing_records index:
+  echo curl -XPOST \'http://localhost:9200/ENVIRONMENT_billing_records\' -d \'{
   echo  \"mappings\": {
   echo   \"billing_record\": {
   echo     \"properties\" : {
@@ -57,6 +57,13 @@ if [ ! -d $EDIR ]; then
   echo " 2.  Create the rabbit MQ river to listen for billing record bulk updates:"
   echo curl -XPUT \'localhost:9200/_river/rpm_amqp/_meta\' -d \'{
   echo  \"type\" : \"rabbitmq\" } }\'
+  echo curl -XPUT 'localhost:9200/_river/my_river/_meta' -d '{
+  echo  \"type\" : \"rabbitmq\",
+  echo   \"rabbitmq\" : {
+  echo    \"user\" : \"elasticsearch\",
+  echo    \"pass\" : \"guest\"
+  echo   }
+  echo }\'
   echo " 3.  In an irb session, import your existing billing records:"
   echo "     BillingRecord.import :per_page=>10"
   echo "=================================== SEMI IMPORTANT ==================================="

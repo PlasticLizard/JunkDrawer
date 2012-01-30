@@ -1,0 +1,22 @@
+rabbitmqctl add_user admin admin
+rabbitmqctl add_user amqp guest
+rabbitmqctl add_user analytics guest
+rabbitmqctl add_user broadcast guest
+rabbitmqctl add_user elasticsearch guest
+rabbitmqctl add_user geppetto guest
+rabbitmqctl add_user logger guest
+rabbitmqctl add_user logger_rpm_daemon guest
+rabbitmqctl add_user sync guest
+rabbitmqctl add_user workflow guest
+rabbitmqctl set_user_tags admin administrator
+rabbitmqctl delete_user guest
+rabbitmqctl set_permissions admin ".*" ".*" ".*"
+rabbitmqctl set_permissions amqp ".*" ".*" ".*"
+rabbitmqctl set_permissions analytics ".*" ".*" ".*"
+rabbitmqctl set_permissions broadcast ".*" ".*" ".*"
+rabbitmqctl set_permissions elasticsearch ".*" ".*" ".*"
+rabbitmqctl set_permissions geppetto ".*" ".*" ".*"
+rabbitmqctl set_permissions logger ".*" ".*" ".*"
+rabbitmqctl set_permissions logger_rpm_daemon ".*" ".*" ".*"
+rabbitmqctl set_permissions sync ".*" ".*" ".*"
+rabbitmqctl set_permissions workflow ".*" ".*" ".*"
